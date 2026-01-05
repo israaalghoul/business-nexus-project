@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { MeetingsPage } from "./pages/meeting/MeetingsPage";
+import { VideoCallPage } from "./pages/video-call/VideoCallPage";
 
 // Layouts
 import { DashboardLayout } from "./components/layout/DashboardLayout";
@@ -93,6 +94,13 @@ function App() {
           <Route path="/meetings" element={<DashboardLayout />}>
             <Route index element={<MeetingsPage />} />
           </Route>
+          <Route path="/video-call" element={<DashboardLayout />}>
+            <Route index element={<VideoCallPage />} />
+          </Route>
+          <Route path="/video-call" element={<DashboardLayout />}>
+            <Route path=":userId" element={<VideoCallPage />} />
+          </Route>
+
           {/* Chat Routes */}
           <Route path="/chat" element={<DashboardLayout />}>
             <Route index element={<ChatPage />} />

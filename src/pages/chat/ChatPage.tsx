@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { Send, Phone, Video, Info, Smile } from 'lucide-react';
+import { Send, Phone, Video, Info, Smile,MessageCircle } from 'lucide-react';
 import { Avatar } from '../../components/ui/Avatar';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
@@ -10,9 +10,10 @@ import { useAuth } from '../../context/AuthContext';
 import { Message } from '../../types';
 import { findUserById } from '../../data/users';
 import { getMessagesBetweenUsers, sendMessage, getConversationsForUser } from '../../data/messages';
-import { MessageCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const ChatPage: React.FC = () => {
+  const navigate = useNavigate();
   const { userId } = useParams<{ userId: string }>();
   const { user: currentUser } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -106,6 +107,7 @@ export const ChatPage: React.FC = () => {
                   size="sm"
                   className="rounded-full p-2"
                   aria-label="Video call"
+                  onClick={() => navigate(`/video-call/${chatPartner.id}`)}
                 >
                   <Video size={18} />
                 </Button>
