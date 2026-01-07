@@ -36,6 +36,7 @@ import { DealsPage } from "./pages/deals/DealsPage";
 
 // Chat Pages
 import { ChatPage } from "./pages/chat/ChatPage";
+import { PaymentsPage } from "./pages/payments/PaymentsPage";
 
 function App() {
   return (
@@ -100,6 +101,7 @@ function App() {
           <Route path="/video-call" element={<DashboardLayout />}>
             <Route path=":userId" element={<VideoCallPage />} />
           </Route>
+          <Route path="/payments" element={<PaymentsPage />} />
 
           {/* Chat Routes */}
           <Route path="/chat" element={<DashboardLayout />}>
