@@ -5,16 +5,35 @@ import { usePaymentStore } from "../../store/paymentStore";
 import { WalletCard } from "../../components/payment/WalletCard";
 
 export const PaymentsPage: React.FC = () => {
-  const { deposit, withdraw, transfer, fundDeal, transactions } =
-    usePaymentStore();
+  const {
+    deposit,
+    withdraw,
+    transfer,
+    fundDeal,
+    transactions,
+  } = usePaymentStore();
 
   const [amount, setAmount] = useState(0);
+  const role = "investor";
+
+  const handleFund = () => {
+    if (amount <= 0) return;
+
+    const success = fundDeal("investor", "entrepreneur", amount);
+
+    if (!success) {
+      alert("Insufficient balance");
+      return;
+    }
+
+    setAmount(0);
+  };
 
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Wallet */}
       <Card>
-        <CardBody className="flex justify-between items-center">
+        <CardBody>
           <WalletCard />
         </CardBody>
       </Card>
@@ -24,18 +43,28 @@ export const PaymentsPage: React.FC = () => {
         <CardHeader>
           <h2 className="text-lg font-medium">Payment Actions</h2>
         </CardHeader>
-        <CardBody className="flex gap-3 flex-wrap">
+
+        <CardBody className="flex gap-3 flex-wrap items-center">
           <input
             type="number"
+            min={0}
             className="border p-2 rounded w-40"
             placeholder="Amount"
+            value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
           />
 
-          <Button onClick={() => deposit(amount)}>Deposit</Button>
-          <Button variant="outline" onClick={() => withdraw(amount)}>
+          <Button onClick={() => deposit(role, amount)}>
+            Deposit
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => withdraw(role, amount)}
+          >
             Withdraw
           </Button>
+
           <Button
             variant="secondary"
             onClick={() => transfer("Partner Wallet", amount)}
@@ -50,10 +79,13 @@ export const PaymentsPage: React.FC = () => {
         <CardHeader>
           <h2 className="text-lg font-medium">Funding Deal</h2>
         </CardHeader>
+
         <CardBody>
           <Button
-            onClick={() =>  fundDeal("investor", "entrepreneur", amount)}>
-            Fund Deal ($5,000)
+            disabled={amount <= 0}
+            onClick={handleFund}
+          >
+            Fund Deal
           </Button>
         </CardBody>
       </Card>
@@ -63,6 +95,7 @@ export const PaymentsPage: React.FC = () => {
         <CardHeader>
           <h2 className="text-lg font-medium">Transaction History</h2>
         </CardHeader>
+
         <CardBody>
           <table className="w-full text-sm">
             <thead className="text-gray-500">
@@ -75,6 +108,7 @@ export const PaymentsPage: React.FC = () => {
                 <th>Date</th>
               </tr>
             </thead>
+
             <tbody>
               {transactions.map((tx) => (
                 <tr key={tx.id} className="border-t text-center">

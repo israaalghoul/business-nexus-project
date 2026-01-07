@@ -256,13 +256,6 @@ export const DealsPage: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => navigate(`/deals/${deal.id}`)}
-                      >
-                        View Details
-                      </Button>
 
                       {user.role === "investor" && deal.status !== "Closed" && (
                         <Button
@@ -273,6 +266,13 @@ export const DealsPage: React.FC = () => {
                           Fund
                         </Button>
                       )}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => navigate(`/deals/${deal.id}`)}
+                      >
+                        View Details
+                      </Button>
                     </td>
                   </tr>
                 ))}
